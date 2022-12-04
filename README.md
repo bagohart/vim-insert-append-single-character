@@ -45,6 +45,8 @@ nmap <Leader>A<CR> ]<Space>
 ```
 But I find it more practical to use `[<Space>` and `]<Space>` directly.
 
+Note that this plugin uses insert mode under the hood, so `<C-a>` in insert mode and `gi` insert/jump back to what you have entered using any of the `<Plug>` mappings above.
+
 ## Mappings for predefined characters
 You could use the existing plugs to build more specific mappings on top of them.
 For example, this mapping would let you append a `;` at the end of the line without moving the cursor:
@@ -77,6 +79,8 @@ Developed and tested on Neovim 0.4.3. When I tested it on Vim 8.2, it worked, to
 
 # Bugs
 * In some edge cases, the `'[` and `']` marks may not be set correctly. This will be easy to fix once extended marks are built into Vim, but that will have Neovim support only. In Vim the same could be probably be done via text properties.
+
+Other than that, I've been using this for years without problems.
 
 # Credits / Related Plugins
 I didn't come up with this idea, it [has](https://superuser.com/questions/581572/insert-single-character-in-vim) [been](https://vi.stackexchange.com/questions/5176/is-there-a-way-to-insert-a-single-character-and-then-exit-insert-mode) [there](https://stackoverflow.com/questions/21197820/insert-character-without-entering-insert-mode) [for](https://vim.fandom.com/wiki/Insert_a_single_character) [a long time](https://github.com/rjayatilleka/vim-insert-char).
