@@ -9,7 +9,7 @@ endfunction
 
 " new_string must be n identical characters
 function! s:InsertStringAtCursor(new_string)
-    execute "normal! i" . a:new_string . "\<Esc>"
+    execute "keepjumps normal! i" . a:new_string . "\<Esc>"
     " todo: remove this corner case handling with extended marks once available
     if g:InsertSingleCharacter_keep_cursor_position
         normal! l
@@ -56,7 +56,7 @@ function! insert_single_character#AppendAtCursor()
 endfunction
 
 function! s:AppendStringAtCursor(new_string)
-    execute "normal! a" . a:new_string . "\<Esc>"
+    execute "keepjumps normal! a" . a:new_string . "\<Esc>"
     if g:InsertSingleCharacter_keep_cursor_position
         let l = len(a:new_string)
         for i in range(l)
@@ -83,7 +83,7 @@ endfunction
 function! insert_single_character#InsertEnterAtCursor()
     let s:last_count = v:count1
     let enter_string = repeat("\<CR>", s:last_count)
-    execute "normal! i" . enter_string
+    execute "keepjumps normal! i" . enter_string
     call repeat#set("\<Plug>(ISC-insert-enter-at-cursor)")
 endfunction
 
@@ -91,7 +91,7 @@ function! insert_single_character#AppendEnterAtCursor()
     let s:last_count = v:count1
     let enter_string = repeat("\<CR>", s:last_count)
     let save_cursor = getcurpos()
-    execute "normal! a" . enter_string
+    execute "keepjumps normal! a" . enter_string
     call setpos(".", save_cursor)
     call repeat#set("\<Plug>(ISC-append-enter-at-cursor)")
 endfunction
@@ -118,7 +118,7 @@ function! s:InsertStringAtStart(new_string)
     let save_cursor = getcurpos()
     normal! ^
     let caret_pos = getcurpos()
-    execute "normal! I" . a:new_string . "\<Esc>"
+    execute "keepjumps normal! I" . a:new_string . "\<Esc>"
     if caret_pos[2] <# save_cursor[2]
         call cursor(save_cursor[1], save_cursor[2] + strlen(a:new_string))
     else
@@ -138,7 +138,7 @@ endfunction
 
 function! s:AppendStringAtEnd(new_string)
     let save_cursor = getcurpos()
-    execute "normal! A" . a:new_string . "\<Esc>"
+    execute "keepjumps normal! A" . a:new_string . "\<Esc>"
     call setpos(".", save_cursor)
 endfunction
 
@@ -158,7 +158,7 @@ function! insert_single_character#InsertAtStartInsertMode()
     let save_cursor = getcurpos()
     if new_char !=# "\<CR>"
         " echom "NOT enter"
-        execute "normal! I" . new_char . "\<Esc>"
+        execute "keepjumps normal! I" . new_char . "\<Esc>"
         call setpos(".", save_cursor)
         " this breaks if a tab is entered that is converted to whitespace. oh well. You should use >> instead anyway.
         " todo: fix this with extended marks once available.
@@ -167,7 +167,7 @@ function! insert_single_character#InsertAtStartInsertMode()
     else
         normal! $
         let end_of_line_pos = getcurpos()
-        execute "normal! O\<Esc>"
+        execute "keepjumps normal! O\<Esc>"
         " This seems to be the only way to enter insert mode at the very end of the line
         let save_cursor[1] += 1
         call setpos(".", save_cursor)
@@ -191,7 +191,7 @@ function! insert_single_character#AppendAtEndInsertMode()
     let new_char = nr2char(getchar())
     let save_cursor = getcurpos()
     if new_char !=# "\<CR>"
-        execute "normal! A" . new_char . "\<Esc>"
+        execute "keepjumps normal! A" . new_char . "\<Esc>"
         call setpos(".", save_cursor)
         " Correction needed because the sequence <Esc>i moves the cursor one to the left
         normal! l
@@ -200,12 +200,12 @@ function! insert_single_character#AppendAtEndInsertMode()
         normal! $
         let end_of_line_pos = getcurpos()
         if save_cursor[2] ==# end_of_line_pos[2]
-            execute "normal! o\<Esc>"
+            execute "keepjumps normal! o\<Esc>"
             " This seems to be the only way to enter insert mode at the very end of the line
             call setpos(".", save_cursor)
             startinsert!
         else
-            execute "normal! o\<Esc>"
+            execute "keepjumps normal! o\<Esc>"
             call setpos(".", save_cursor)
             normal! l
             startinsert

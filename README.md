@@ -45,7 +45,7 @@ nmap <Leader>A<CR> ]<Space>
 ```
 But I find it more practical to use `[<Space>` and `]<Space>` directly.
 
-Note that this plugin uses insert mode under the hood, so `<C-a>` in insert mode and `gi` insert/jump back to what you have entered using any of the `<Plug>` mappings above.
+Note that this plugin uses insert mode under the hood, so `<C-a>` in insert mode inserts what you have entered using any of the `<Plug>` mappings above.
 
 ## Mappings for predefined characters
 You could use the existing plugs to build more specific mappings on top of them.
