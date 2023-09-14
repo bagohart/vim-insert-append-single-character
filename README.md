@@ -47,6 +47,8 @@ But I find it more practical to use `[<Space>` and `]<Space>` directly.
 
 Note that this plugin uses insert mode under the hood, so `<C-a>` in insert mode inserts what you have entered using any of the `<Plug>` mappings above.
 
+All normal-mode mappings are dot-repeatable, without dependency on [vim-repeat](https://github.com/tpope/vim-repeat).
+
 ## Mappings for predefined characters
 You could use the existing plugs to build more specific mappings on top of them.
 For example, this mapping would let you append a `;` at the end of the line without moving the cursor:
@@ -74,7 +76,6 @@ If disabled, `.` adds the same character, but only once.\
 The count can always be explicitly overwritten on the next invocation of `.`.
 
 # Requirements
-Requires [vim-repeat](https://github.com/tpope/vim-repeat).\
 Developed and tested on Neovim 0.4.3. When I tested it on Vim 8.2, it worked, too.
 
 # Bugs
