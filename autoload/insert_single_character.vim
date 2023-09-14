@@ -1,4 +1,20 @@
 " Fast Insert/Append at cursor {{{
+function! insert_single_character#InsertAtCursorDotRepeat()
+    function! s:inner(...) closure abort
+        let new_string = s:GetInputString("insert at cursor")
+        if s:last_inserted_char !=# "\<CR>"
+            call s:InsertStringAtCursor(new_string)
+            let &opfunc=get(funcref('s:inner_repeat'), 'name')
+        endif
+    endfunction
+    function! s:inner_repeat(...) closure abort
+        let new_string = s:GetRepeatString(v:count)
+        call s:InsertStringAtCursor(new_string)
+    endfunction
+    let &opfunc=get(funcref('s:inner'), 'name')
+    return 'g@l'
+endfunction
+
 function! insert_single_character#InsertAtCursor()
     let new_string = s:GetInputString("insert at cursor")
     if s:last_inserted_char !=# "\<CR>"
@@ -47,6 +63,22 @@ function! s:GetRepeatString(times)
     endif
 endfunction
 
+function! insert_single_character#AppendAtCursorDotRepeat()
+    function! s:inner(...) closure abort
+        let new_string = s:GetInputString("append at cursor")
+        if s:last_inserted_char !=# "\<CR>"
+            call s:AppendStringAtCursor(new_string)
+            let &opfunc=get(funcref('s:inner_repeat'), 'name')
+        endif
+    endfunction
+    function! s:inner_repeat(...) closure abort
+        let new_string = s:GetRepeatString(v:count)
+        call s:AppendStringAtCursor(new_string)
+    endfunction
+    let &opfunc=get(funcref('s:inner'), 'name')
+    return 'g@l'
+endfunction
+
 function! insert_single_character#AppendAtCursor()
     let new_string = s:GetInputString("append at cursor")
     if s:last_inserted_char !=# "\<CR>"
@@ -80,11 +112,34 @@ endfunction
 " }}}
 
 " Fast Insert/Append Enter at cursor {{{
+function! insert_single_character#InsertEnterAtCursorDotRepeat()
+    function! s:inner(...) closure abort
+        let s:last_count = v:count1
+        let enter_string = repeat("\<CR>", s:last_count)
+        execute "keepjumps normal! i" . enter_string . "\<Esc>"
+    endfunction
+    let &opfunc=get(funcref('s:inner'), 'name')
+    return 'g@l'
+endfunction
+
 function! insert_single_character#InsertEnterAtCursor()
     let s:last_count = v:count1
     let enter_string = repeat("\<CR>", s:last_count)
     execute "keepjumps normal! i" . enter_string
     call repeat#set("\<Plug>(ISC-insert-enter-at-cursor)")
+endfunction
+
+function! insert_single_character#AppendEnterAtCursorDotRepeat()
+    function! s:inner(...) closure abort
+        let s:last_count = v:count1
+        let enter_string = repeat("\<CR>", s:last_count)
+        let save_cursor = getcurpos()
+        execute "keepjumps normal! a" . enter_string . "\<Esc>"
+        call setpos(".", save_cursor)
+        call repeat#set("\<Plug>(ISC-append-enter-at-cursor)")
+    endfunction
+    let &opfunc=get(funcref('s:inner'), 'name')
+    return 'g@l'
 endfunction
 
 function! insert_single_character#AppendEnterAtCursor()
@@ -98,6 +153,23 @@ endfunction
 " }}}
 
 " Fast insert/append at start/end {{{
+function! insert_single_character#InsertAtStartDotRepeat()
+    function! s:inner(...) closure abort
+        let new_string = s:GetInputString("insert at ^")
+        " echom "insert this at start: " . new_string
+        if s:last_inserted_char !=# "\<CR>"
+            call s:InsertStringAtStart(new_string)
+            let &opfunc=get(funcref('s:inner_repeat'), 'name')
+        endif
+    endfunction
+    function! s:inner_repeat(...) closure abort
+        let new_string = s:GetRepeatString(v:count)
+        call s:InsertStringAtStart(new_string)
+    endfunction
+    let &opfunc=get(funcref('s:inner'), 'name')
+    return 'g@l'
+endfunction
+
 " Use I to insert at ^
 function! insert_single_character#InsertAtStart()
     let new_string = s:GetInputString("insert at ^")
@@ -128,6 +200,22 @@ function! s:InsertStringAtStart(new_string)
 endfunction
 
 " Append at $ with A
+function! insert_single_character#AppendAtEndDotRepeat()
+    function! s:inner(...) closure abort
+        let new_string = s:GetInputString("append at end of line")
+        if s:last_inserted_char !=# "\<CR>"
+            call s:AppendStringAtEnd(new_string)
+            let &opfunc=get(funcref('s:inner_repeat'), 'name')
+        endif
+    endfunction
+    function! s:inner_repeat(...) closure abort
+        let new_string = s:GetRepeatString(v:count)
+        call s:AppendStringAtEnd(new_string)
+    endfunction
+    let &opfunc=get(funcref('s:inner'), 'name')
+    return 'g@l'
+endfunction
+
 function! insert_single_character#AppendAtEnd()
     let new_string = s:GetInputString("append at end of line")
     if s:last_inserted_char !=# "\<CR>"

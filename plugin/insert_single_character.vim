@@ -16,23 +16,29 @@ let g:InsertSingleCharacter_reuse_first_count_on_repeat = get(g:, "InsertSingleC
 " }}}
 
 " Plug mappings {{{
-nnoremap <silent> <Plug>(ISC-insert-at-cursor) :<C-u>call insert_single_character#InsertAtCursor()<CR>
-nnoremap <silent> <Plug>(ISC-insert-at-cursor-repeat) :<C-u>call insert_single_character#InsertAtCursorRepeat()<CR>
+nnoremap <silent><expr> <Plug>(ISC-insert-at-cursor) insert_single_character#InsertAtCursorDotRepeat()
+" nnoremap <silent> <Plug>(ISC-insert-at-cursor) :<C-u>call insert_single_character#InsertAtCursor()<CR>
+" nnoremap <silent> <Plug>(ISC-insert-at-cursor-repeat) :<C-u>call insert_single_character#InsertAtCursorRepeat()<CR>
 
-nnoremap <silent> <Plug>(ISC-append-at-cursor) :<C-u>call insert_single_character#AppendAtCursor()<CR>
-nnoremap <silent> <Plug>(ISC-append-at-cursor-repeat) :<C-u>call insert_single_character#AppendAtCursorRepeat()<CR>
+nnoremap <silent><expr> <Plug>(ISC-append-at-cursor) insert_single_character#AppendAtCursorDotRepeat()
+" nnoremap <silent> <Plug>(ISC-append-at-cursor) :<C-u>call insert_single_character#AppendAtCursor()<CR>
+" nnoremap <silent> <Plug>(ISC-append-at-cursor-repeat) :<C-u>call insert_single_character#AppendAtCursorRepeat()<CR>
 
-nnoremap <silent> <Plug>(ISC-insert-at-start) :<C-u>call insert_single_character#InsertAtStart()<CR>
-nnoremap <silent> <Plug>(ISC-insert-at-start-repeat) :<C-u>call insert_single_character#InsertAtStartRepeat()<CR>
+nnoremap <silent><expr> <Plug>(ISC-insert-at-start) insert_single_character#InsertAtStartDotRepeat()
+" nnoremap <silent> <Plug>(ISC-insert-at-start) :<C-u>call insert_single_character#InsertAtStart()<CR>
+" nnoremap <silent> <Plug>(ISC-insert-at-start-repeat) :<C-u>call insert_single_character#InsertAtStartRepeat()<CR>
 
-nnoremap <silent> <Plug>(ISC-append-at-end) :<C-u>call insert_single_character#AppendAtEnd()<CR>
-nnoremap <silent> <Plug>(ISC-append-at-end-repeat) :<C-u>call insert_single_character#AppendAtEndRepeat()<CR>
+nnoremap <silent><expr> <Plug>(ISC-append-at-end) insert_single_character#AppendAtEndDotRepeat()
+" nnoremap <silent> <Plug>(ISC-append-at-end) :<C-u>call insert_single_character#AppendAtEnd()<CR>
+" nnoremap <silent> <Plug>(ISC-append-at-end-repeat) :<C-u>call insert_single_character#AppendAtEndRepeat()<CR>
 
 inoremap <silent> <Plug>(ISC-insert-at-start-insert-mode) <Esc>:<C-u>call insert_single_character#InsertAtStartInsertMode()<CR>
 inoremap <silent> <Plug>(ISC-append-at-end-insert-mode) <Esc>:<C-u>call insert_single_character#AppendAtEndInsertMode()<CR>
 
-nnoremap <silent> <Plug>(ISC-insert-enter-at-cursor) :<C-u>call insert_single_character#InsertEnterAtCursor()<CR>
-nnoremap <silent> <Plug>(ISC-append-enter-at-cursor) :<C-u>call insert_single_character#AppendEnterAtCursor()<CR>
+" nnoremap <silent> <Plug>(ISC-insert-enter-at-cursor) :<C-u>call insert_single_character#InsertEnterAtCursor()<CR>
+nnoremap <silent><expr> <Plug>(ISC-insert-enter-at-cursor) insert_single_character#InsertEnterAtCursorDotRepeat()
+" nnoremap <silent> <Plug>(ISC-append-enter-at-cursor) :<C-u>call insert_single_character#AppendEnterAtCursor()<CR>
+nnoremap <silent><expr> <Plug>(ISC-append-enter-at-cursor) insert_single_character#AppendEnterAtCursorDotRepeat()
 " }}}
 
 " usermappings {{{
