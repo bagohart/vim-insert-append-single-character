@@ -1,5 +1,5 @@
 " Fast Insert/Append at cursor {{{
-function! insert_single_character#InsertAtCursorDotRepeat()
+function! insert_single_character#InsertAtCursor()
     function! s:inner(...) closure abort
         let new_string = s:GetInputString("insert at cursor")
         if s:last_inserted_char !=# "\<CR>"
@@ -15,14 +15,6 @@ function! insert_single_character#InsertAtCursorDotRepeat()
     return 'g@l'
 endfunction
 
-function! insert_single_character#InsertAtCursor()
-    let new_string = s:GetInputString("insert at cursor")
-    if s:last_inserted_char !=# "\<CR>"
-        call s:InsertStringAtCursor(new_string)
-        call repeat#set("\<Plug>(ISC-insert-at-cursor-repeat)")
-    endif
-endfunction
-
 " new_string must be n identical characters
 function! s:InsertStringAtCursor(new_string)
     execute "keepjumps normal! i" . a:new_string . "\<Esc>"
@@ -30,13 +22,6 @@ function! s:InsertStringAtCursor(new_string)
     if g:InsertSingleCharacter_keep_cursor_position
         normal! l
     endif
-endfunction
-
-function! insert_single_character#InsertAtCursorRepeat()
-    " echom "Called insert_single_character#InsertAtCursorRepeat() with v:count=" . v:count
-    let new_string = s:GetRepeatString(v:count)
-    call s:InsertStringAtCursor(new_string)
-    call repeat#set("\<Plug>(ISC-insert-at-cursor-repeat)")
 endfunction
 
 function! s:GetInputString(prompt)
@@ -63,7 +48,7 @@ function! s:GetRepeatString(times)
     endif
 endfunction
 
-function! insert_single_character#AppendAtCursorDotRepeat()
+function! insert_single_character#AppendAtCursor()
     function! s:inner(...) closure abort
         let new_string = s:GetInputString("append at cursor")
         if s:last_inserted_char !=# "\<CR>"
@@ -77,14 +62,6 @@ function! insert_single_character#AppendAtCursorDotRepeat()
     endfunction
     let &opfunc=get(funcref('s:inner'), 'name')
     return 'g@l'
-endfunction
-
-function! insert_single_character#AppendAtCursor()
-    let new_string = s:GetInputString("append at cursor")
-    if s:last_inserted_char !=# "\<CR>"
-        call s:AppendStringAtCursor(new_string)
-        call repeat#set("\<Plug>(ISC-append-at-cursor-repeat)")
-    endif
 endfunction
 
 function! s:AppendStringAtCursor(new_string)
@@ -102,17 +79,10 @@ function! s:AppendStringAtCursor(new_string)
         " Not really sure why this happens.
     endif
 endfunction
-
-function! insert_single_character#AppendAtCursorRepeat()
-    " echom "Called insert_single_character#AppendAtCursorRepeat() with v:count=" . v:count
-    let new_string = s:GetRepeatString(v:count)
-    call s:AppendStringAtCursor(new_string)
-    call repeat#set("\<Plug>(ISC-append-at-cursor-repeat)")
-endfunction
 " }}}
 
 " Fast Insert/Append Enter at cursor {{{
-function! insert_single_character#InsertEnterAtCursorDotRepeat()
+function! insert_single_character#InsertEnterAtCursor()
     function! s:inner(...) closure abort
         let s:last_count = v:count1
         let enter_string = repeat("\<CR>", s:last_count)
@@ -122,14 +92,7 @@ function! insert_single_character#InsertEnterAtCursorDotRepeat()
     return 'g@l'
 endfunction
 
-function! insert_single_character#InsertEnterAtCursor()
-    let s:last_count = v:count1
-    let enter_string = repeat("\<CR>", s:last_count)
-    execute "keepjumps normal! i" . enter_string
-    call repeat#set("\<Plug>(ISC-insert-enter-at-cursor)")
-endfunction
-
-function! insert_single_character#AppendEnterAtCursorDotRepeat()
+function! insert_single_character#AppendEnterAtCursor()
     function! s:inner(...) closure abort
         let s:last_count = v:count1
         let enter_string = repeat("\<CR>", s:last_count)
@@ -141,19 +104,11 @@ function! insert_single_character#AppendEnterAtCursorDotRepeat()
     let &opfunc=get(funcref('s:inner'), 'name')
     return 'g@l'
 endfunction
-
-function! insert_single_character#AppendEnterAtCursor()
-    let s:last_count = v:count1
-    let enter_string = repeat("\<CR>", s:last_count)
-    let save_cursor = getcurpos()
-    execute "keepjumps normal! a" . enter_string
-    call setpos(".", save_cursor)
-    call repeat#set("\<Plug>(ISC-append-enter-at-cursor)")
-endfunction
 " }}}
 
 " Fast insert/append at start/end {{{
-function! insert_single_character#InsertAtStartDotRepeat()
+" Use I to insert at ^
+function! insert_single_character#InsertAtStart()
     function! s:inner(...) closure abort
         let new_string = s:GetInputString("insert at ^")
         " echom "insert this at start: " . new_string
@@ -170,22 +125,6 @@ function! insert_single_character#InsertAtStartDotRepeat()
     return 'g@l'
 endfunction
 
-" Use I to insert at ^
-function! insert_single_character#InsertAtStart()
-    let new_string = s:GetInputString("insert at ^")
-    " echom "insert this at start: " . new_string
-    if s:last_inserted_char !=# "\<CR>"
-        call s:InsertStringAtStart(new_string)
-        call repeat#set("\<Plug>(ISC-insert-at-start-repeat)")
-    endif
-endfunction
-
-function! insert_single_character#InsertAtStartRepeat()
-    let new_string = s:GetRepeatString(v:count)
-    call s:InsertStringAtStart(new_string)
-    call repeat#set("\<Plug>(ISC-insert-at-start-repeat)")
-endfunction
-
 function! s:InsertStringAtStart(new_string)
     let save_cursor = getcurpos()
     normal! ^
@@ -200,7 +139,7 @@ function! s:InsertStringAtStart(new_string)
 endfunction
 
 " Append at $ with A
-function! insert_single_character#AppendAtEndDotRepeat()
+function! insert_single_character#AppendAtEnd()
     function! s:inner(...) closure abort
         let new_string = s:GetInputString("append at end of line")
         if s:last_inserted_char !=# "\<CR>"
@@ -216,24 +155,10 @@ function! insert_single_character#AppendAtEndDotRepeat()
     return 'g@l'
 endfunction
 
-function! insert_single_character#AppendAtEnd()
-    let new_string = s:GetInputString("append at end of line")
-    if s:last_inserted_char !=# "\<CR>"
-        call s:AppendStringAtEnd(new_string)
-        call repeat#set("\<Plug>(ISC-append-at-end-repeat)")
-    endif
-endfunction
-
 function! s:AppendStringAtEnd(new_string)
     let save_cursor = getcurpos()
     execute "keepjumps normal! A" . a:new_string . "\<Esc>"
     call setpos(".", save_cursor)
-endfunction
-
-function! insert_single_character#AppendAtEndRepeat()
-    let new_string = s:GetRepeatString(v:count)
-    call s:AppendStringAtEnd(new_string)
-    call repeat#set("\<Plug>(ISC-append-at-end-repeat)")
 endfunction
 " }}}
 
